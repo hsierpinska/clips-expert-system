@@ -7,16 +7,20 @@ import java.util.List;
 
 public class InterfaceManager {
 
-    Frame frame;
+
+    private JFrame frame;
     CLIPSHandler handler;
 
     public InterfaceManager(CLIPSHandler handler) {
         this.handler = handler;
 
-        frame = new Frame();
+        frame = new JFrame("Typeface system");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // zamykanie
         frame.setSize(500, 500);
         frame.setLayout(null);
         frame.setVisible(true);
+        frame.setIgnoreRepaint(true);
+
 
         List<CLIPSHandler.Question> questions = handler.fetchQuestions();
         System.out.println(questions);
@@ -28,9 +32,9 @@ public class InterfaceManager {
     }
 
     public void displayQuestion(CLIPSHandler.Question question) {
-        frame.removeAll();
+        frame.getContentPane().removeAll();
 
-        Label label = new Label(question.text);
+        JLabel label = new JLabel(question.text);
         label.setFont(new Font("Calibri", Font.BOLD, 20));
         label.setBounds(10, 10, 200, 100);
         frame.add(label);
@@ -38,16 +42,16 @@ public class InterfaceManager {
         ButtonGroup radioGroup = new ButtonGroup();
 
         List<JRadioButton> radioButtons = new ArrayList<>();
-        List<Checkbox> checkBoxes = new ArrayList<>();
+        List<JCheckBox> checkBoxes = new ArrayList<>();
 
         if (question.multiple) {
             int xPos = 10;
             int yPos = 200;
-            for (CLIPSHandler.QuestionChoice choices : question.choices) {
-                Checkbox checkbox = new Checkbox(choices.toString());
-                checkbox.setBounds(xPos, yPos, 500, 50);
-                frame.add(checkbox);
-                checkBoxes.add(checkbox);
+            for (CLIPSHandler.QuestionChoice choice : question.choices) {
+                JCheckBox checkBox = new JCheckBox(choice.toString());
+                checkBox.setBounds(xPos, yPos, 500, 50);
+                frame.add(checkBox);
+                checkBoxes.add(checkBox);
 
                 yPos += 50;
             }
@@ -78,5 +82,7 @@ public class InterfaceManager {
 
         frame.add(submitButton);
 
+        frame.revalidate();
+        frame.repaint();
     }
 }
