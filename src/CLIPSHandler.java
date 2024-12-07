@@ -45,6 +45,8 @@ public class CLIPSHandler {
             for (int index: choiceIndexes) {
                 assertFact(this.choices.get(index).fact);
             }
+            System.out.println(countFacts()); // Moved
+
         }
 
         @Override
@@ -146,7 +148,7 @@ public class CLIPSHandler {
             String query = "(assert " + fact + ")";
             PrimitiveValue result = clips.eval(query);
 
-            System.out.println("Asserted! " + countFacts() );
+            System.out.println("Asserted!");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -155,11 +157,15 @@ public class CLIPSHandler {
 
     public int countFacts() {
         try {
-            MultifieldValue allFacts = (MultifieldValue) clips.eval("(facts)");
-            return allFacts.size();
+            PrimitiveValue result = clips.eval("(facts)");
+            if (result instanceof MultifieldValue facts) {
+                return facts.size();
+            } else if (result instanceof VoidValue) {
+                return 0;
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
         }
+        return -1;
     }
 }

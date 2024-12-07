@@ -16,7 +16,7 @@ public class InterfaceManager {
 
         frame = new JFrame("Typeface system");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // zamykanie
-        frame.setSize(500, 500);
+        frame.setSize(400, 400);
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setIgnoreRepaint(true);
@@ -30,13 +30,17 @@ public class InterfaceManager {
         displayQuestion(question);
 
     }
-
+    public static String formatString(String input) {
+        String[] parts = input.replaceAll("[()]", "").split(",");
+        String result = parts[0].trim().toLowerCase();
+        return result.substring(0, 1).toUpperCase() + result.substring(1);
+    }
     public void displayQuestion(CLIPSHandler.Question question) {
         frame.getContentPane().removeAll();
 
         JLabel label = new JLabel(question.text);
         label.setFont(new Font("Calibri", Font.BOLD, 20));
-        label.setBounds(10, 10, 200, 100);
+        label.setBounds(10, 10, 200, 50);
         frame.add(label);
 
         ButtonGroup radioGroup = new ButtonGroup();
@@ -46,42 +50,60 @@ public class InterfaceManager {
 
         if (question.multiple) {
             int xPos = 10;
-            int yPos = 200;
-            for (CLIPSHandler.QuestionChoice choice : question.choices) {
-                JCheckBox checkBox = new JCheckBox(choice.toString());
-                checkBox.setBounds(xPos, yPos, 500, 50);
+            int yPos = 100;
+            for (CLIPSHandler.QuestionChoice choices : question.choices) {
+                String checkboxTitle = formatString(choices.toString());
+                JCheckBox checkBox = new JCheckBox(checkboxTitle);
+                checkBox.setBounds(xPos, yPos, 500, 30);
                 frame.add(checkBox);
                 checkBoxes.add(checkBox);
-
-                yPos += 50;
+                yPos += 30;
             }
         } else {
             int xPos = 10;
-            int yPos = 200;
+            int yPos = 100;
             for (CLIPSHandler.QuestionChoice choices : question.choices) {
-                JRadioButton radioButton = new JRadioButton(choices.toString());
-                radioButton.setBounds(xPos, yPos, 500, 50);
+                String radioTitle = formatString(choices.toString());
+                JRadioButton radioButton = new JRadioButton(radioTitle);
+                radioButton.setBounds(xPos, yPos, 500, 30);
                 frame.add(radioButton);
                 radioGroup.add(radioButton);
                 radioButtons.add(radioButton);
 
-                yPos += 50;
+                yPos += 30;
             }
         }
 
         JButton submitButton = new JButton("Submit");
-        submitButton.setBounds(300, 100, 100, 20);
+        submitButton.setBounds(250, 300, 100, 20);
+
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<Integer> indexes = new ArrayList<>();
-                indexes.add(0);
-                question.answer(indexes);
+                if (question.multiple) {
+                    for (int i=0; i<checkBoxes.size(); i++) {
+                        if (checkBoxes.get(i).isSelected()) {
+                            indexes.add(i);
+                        }
+                    }
+                }
+                for(int i = 0; i < radioButtons.size(); i++) {
+                    if (radioButtons.get(i).isSelected()) {
+                        indexes.add(i);
+                    }
+                }
+                if (indexes.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Please select an answer");
+                } else {
+                    question.answer(indexes);
+                }
+
+
             }
         });
 
         frame.add(submitButton);
-
         frame.revalidate();
         frame.repaint();
     }
