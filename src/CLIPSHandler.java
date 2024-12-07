@@ -7,22 +7,54 @@ public class CLIPSHandler {
 
     private Environment clips;
 
+    public class QuestionChoice {
+        public String text;
+        public String fact;
+        public QuestionChoice(String text, String fact) {
+            this.text = text;
+            this.fact = fact;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public String getFact() {
+            return fact;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + text + ", " + fact + ")";
+        }
+    }
+
     public class Question {
         public String text;
-        public List<String> choices;
+        public List<QuestionChoice> choices;
         public boolean multiple;
 
-
-
-        public Question(String text, List<String> choices, boolean multiple) {
+        public Question(String text, List<QuestionChoice> choices, boolean multiple) {
             this.text = text;
             this.choices = choices;
             this.multiple = multiple;
         }
 
+        // List of choice indexes
+        public void answer(List<Integer> choiceIndexes) {
+            for (int index: choiceIndexes) {
+                assertFact(this.choices.get(index).fact);
+            }
+        }
+
         @Override
         public String toString() {
-            return "<Question: \"" + text + "\" - " + String.join(" ", choices) + " (multiple: " + multiple + ")>";
+            String choicesString = "";
+            for (QuestionChoice choice : choices) {
+                choicesString += choice.text + ", ";
+            }
+
+            return "<Question: \"" + text + "\" - " + choicesString + " (multiple: " + multiple + ")>";
         }
     }
 
@@ -68,12 +100,29 @@ public class CLIPSHandler {
 
                     String questionText = fact.getSlotValue("text").getValue().toString();
 
+
+                    // Get choices --------------
+
+                    List<String> questionChoicesText = new ArrayList<>();
                     MultifieldValue questionChoices = (MultifieldValue) fact.getSlotValue("choices");
-                    List<String> choices = new ArrayList<>();
                     for (int j = 0; j < questionChoices.size(); j++) {
                         String questionChoice = questionChoices.get(j).getValue().toString();
-                        choices.add(questionChoice);
+                        questionChoicesText.add(questionChoice);
                     }
+
+                    List<String> questionChoicesFacts = new ArrayList<>();
+                    MultifieldValue questionFacts = (MultifieldValue) fact.getSlotValue("facts");
+                    for (int j = 0; j < questionFacts.size(); j++) {
+                        String questionFact = questionFacts.get(j).getValue().toString();
+                        questionChoicesFacts.add(questionFact);
+                    }
+
+                    List<QuestionChoice> choices = new ArrayList<>();
+                    for (int j = 0; j < questionChoicesText.size(); j++) {
+                        choices.add(new QuestionChoice(questionChoicesText.get(j), questionChoicesFacts.get(j)));
+                    }
+
+                    // ---------------
 
                     boolean multiple = Integer.parseInt(fact.getSlotValue("multiple").getValue().toString()) == 1;
 
@@ -87,5 +136,30 @@ public class CLIPSHandler {
         }
 
         return questions;
+    }
+
+    public void assertFact(String fact) {
+        List<Question> questions = new ArrayList<>();
+
+        try {
+
+            String query = "(assert " + fact + ")";
+            PrimitiveValue result = clips.eval(query);
+
+            System.out.println("Asserted! " + countFacts() );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int countFacts() {
+        try {
+            MultifieldValue allFacts = (MultifieldValue) clips.eval("(facts)");
+            return allFacts.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

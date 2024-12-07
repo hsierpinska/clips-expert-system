@@ -43,8 +43,8 @@ public class InterfaceManager {
         if (question.multiple) {
             int xPos = 10;
             int yPos = 200;
-            for (String choices : question.choices) {
-                Checkbox checkbox = new Checkbox(choices);
+            for (CLIPSHandler.QuestionChoice choices : question.choices) {
+                Checkbox checkbox = new Checkbox(choices.toString());
                 checkbox.setBounds(xPos, yPos, 500, 50);
                 frame.add(checkbox);
                 checkBoxes.add(checkbox);
@@ -54,8 +54,8 @@ public class InterfaceManager {
         } else {
             int xPos = 10;
             int yPos = 200;
-            for (String choices : question.choices) {
-                JRadioButton radioButton = new JRadioButton(choices);
+            for (CLIPSHandler.QuestionChoice choices : question.choices) {
+                JRadioButton radioButton = new JRadioButton(choices.toString());
                 radioButton.setBounds(xPos, yPos, 500, 50);
                 frame.add(radioButton);
                 radioGroup.add(radioButton);
@@ -70,7 +70,9 @@ public class InterfaceManager {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //question.answer();
+                List<Integer> indexes = new ArrayList<>();
+                indexes.add(0);
+                question.answer(indexes);
             }
         });
 
