@@ -1,13 +1,41 @@
-(defrule find-ground-animals
-    (animal ?a)
-    (habitat ?a ground)
+
+
+; Project: Book
+
+(defrule recommend-baskerville
+    (dislikes humanistic)
+    (dislikes eric-gill)
+    (dislikes sans-serif)
+    (dislikes garamond)
+    (dislikes usability)
+    (is doubtful)
+    (project book)
 =>
-    (printout t "Ground animal: " ?a crlf)
+    (assert (recommend baskerville))
 )
 
-(defrule find-water-animals
-    (animal ?a)
-    (habitat ?a water)
+(defrule recommend-ff-scala
+    (likes gouda)
+    (likes humanistic)
+    (dislikes eric-gill)
+    (dislikes sans-serif)
+    (dislikes garamond)
+    (dislikes usability)
+    (is doubtful)
+    (project book)
 =>
-    (printout t "Water animal: " ?a crlf)
+    (assert (recommend ff-scala))
+)
+
+(defrule recommend-syntax
+    (likes emmental)
+    (likes humanistic)
+    (dislikes eric-gill)
+    (dislikes sans-serif)
+    (dislikes garamond)
+    (dislikes usability)
+    (is doubtful)
+    (project book)
+=>
+    (assert (recommend syntax))
 )
