@@ -1,4 +1,4 @@
-(defrule recommend-caslon
+(defrule book-recommend-caslon
     (project book)
     (is-doubtful yes)
 =>
@@ -8,7 +8,7 @@
     ))
 )
 
-(defrule recommend-minion
+(defrule book-recommend-minion
     (project book)
     (is-doubtful no)
     (usability-champion yes)
@@ -19,7 +19,7 @@
     ))
 )
 
-(defrule recommend-sabon
+(defrule book-recommend-sabon
     (project book)
     (is-doubtful no)
     (usability-champion no)
@@ -32,7 +32,7 @@
     ))
 )
 
-(defrule recommend-garamond
+(defrule book-recommend-garamond
     (project book)
     (is-doubtful no)
     (usability-champion no)
@@ -45,7 +45,7 @@
     ))
 )
 
-(defrule recommend-optima
+(defrule book-recommend-optima
     (project book)
     (is-doubtful no)
     (usability-champion no)
@@ -58,7 +58,7 @@
     ))
 )
 
-(defrule recommend-joanna
+(defrule book-recommend-joanna
      (project book)
      (is-doubtful no)
      (usability-champion no)
@@ -72,7 +72,7 @@
      ))
  )
 
-(defrule recommend-baskerville
+(defrule book-recommend-baskerville
     (project book)
     (is-doubtful no)
     (usability-champion no)
@@ -87,7 +87,7 @@
     ))
 )
 
-(defrule recommend-ff-scala
+(defrule book-recommend-ff-scala
     (project book)
     (is-doubtful no)
     (usability-champion no)
@@ -103,7 +103,7 @@
     ))
 )
 
-(defrule recommend-syntax
+(defrule book-recommend-syntax
     (project book)
     (is-doubtful no)
     (usability-champion no)
