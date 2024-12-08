@@ -6,8 +6,8 @@
 )
 
 (deftemplate recommendation
-    (slot font-name (type STRING))
-    (slot preview-path (type STRING))
+    (slot name (type STRING))
+    (slot preview (type STRING))
 )
 
 ; (program-info (title "Typeface Chooser"))

@@ -45,13 +45,13 @@ public class InterfaceManager {
 
     public void displayRecommendation(CLIPSHandler.Recommendation recommendation) {
         frame.getContentPane().removeAll();
-        String fontName = recommendation.fontName;
+        String fontName = recommendation.name;
         JLabel label = new JLabel("Your recommendation is " + fontName);
         label.setFont(new Font("Calibri", Font.BOLD, 20));
         label.setBounds(50, 60, 350, 100);
         frame.add(label);
         // image
-        String previewPath = recommendation.previewPath;
+        String previewPath = recommendation.preview;
         ImageIcon imageIcon = new ImageIcon(previewPath);
         JLabel image = new JLabel(imageIcon);
         int height = imageIcon.getIconHeight();

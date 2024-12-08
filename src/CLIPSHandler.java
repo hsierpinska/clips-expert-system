@@ -1,11 +1,14 @@
 import net.sf.clipsrules.jni.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CLIPSHandler {
 
     private Environment clips;
+    private String rulesPath;
 
     public class QuestionChoice {
         public String text;
@@ -62,18 +65,18 @@ public class CLIPSHandler {
     }
 
     public class Recommendation {
-        String fontName;
-        String previewPath;
+        String name;
+        String preview;
 
-        public Recommendation(String fontName, String previewPath) {
-            this.fontName = fontName;
-            this.previewPath = previewPath;
+        public Recommendation(String name, String preview) {
+            this.name = name;
+            this.preview = preview;
         }
         @Override
         public String toString() {
             return "Recommendation: " +
-                    "fontName='" + fontName + '\'' +
-                    ", previewPath='" + previewPath + '\'';
+                    "fontName='" + name + '\'' +
+                    ", previewPath='" + preview + '\'';
 
         }
     }
@@ -89,17 +92,25 @@ public class CLIPSHandler {
             System.out.println("CLIPS Environment initialized.");
 
             // Load the CLIPS file
-            clips.load("facts.clp");
-            clips.load("rules.clp");
+            rulesPath = "rules/";
+            File rulesFolder = new File(rulesPath);
+
+            System.out.println("Loading rule files:");
+            for (File file : Objects.requireNonNull(rulesFolder.listFiles())) {
+                String filePath = file.getAbsolutePath();
+                System.out.println("- " + filePath);
+                if (filePath.endsWith(".clp")) {
+                    clips.load(filePath);
+                }
+            }
+
+            // Initialize facts and rules by resetting
             clips.eval("(reset)");
+            System.out.println("CLIPS Environment ready!");
 
             // Activate tracing to debug
-            clips.eval("(watch rules)");
-            clips.eval("(watch facts)");
-
-            // Run the CLIPS engine
-            //clips.run();
-            //System.out.println("CLIPS rules executed.");
+            //clips.eval("(watch rules)");
+            //clips.eval("(watch facts)");
 
         } catch (UnsatisfiedLinkError ule) {
             System.err.println("Failed to load the CLIPSJNI library: " + ule.getMessage());
@@ -116,8 +127,8 @@ public class CLIPSHandler {
                 for (int i=0; i < facts.size(); i++) {
 
                     FactAddressValue fact = (FactAddressValue) facts.get(i);
-                    String fontName = fact.getSlotValue("font-name").getValue().toString();
-                    String previewPath = fact.getSlotValue("preview-path").getValue().toString();
+                    String fontName = fact.getSlotValue("name").getValue().toString();
+                    String previewPath = fact.getSlotValue("preview").getValue().toString();
                     recommendations.add(new Recommendation(fontName, previewPath));
 
                 }

@@ -178,8 +178,8 @@
     (is-doubtful yes)
 =>
     (assert (recommendation
-        (font-name "Caslon")
-        (preview-path "previews/caslon.png")
+        (name "Caslon")
+        (preview "previews/caslon.png")
     ))
 )
 
@@ -189,8 +189,8 @@
     (usability-champion yes)
 =>
     (assert (recommendation
-        (font-name "Minion")
-        (preview-path "previews/minion.png")
+        (name "Minion")
+        (preview "previews/minion.png")
     ))
 )
 
@@ -202,8 +202,8 @@
     (larger-eye want)
 =>
     (assert (recommendation
-        (font-name "Sabon")
-        (preview-path "previews/sabon.png")
+        (name "Sabon")
+        (preview "previews/sabon.png")
     ))
 )
 
@@ -215,8 +215,8 @@
     (larger-eye not-want)
 =>
     (assert (recommendation
-        (font-name "Garamond")
-        (preview-path "previews/garamond.png")
+        (name "Garamond")
+        (preview "previews/garamond.png")
     ))
 )
 
@@ -228,8 +228,8 @@
     (typeface-preference sans-serif)
 =>
     (assert (recommendation
-        (font-name "Optima")
-        (preview-path "previews/optima.png")
+        (name "Optima")
+        (preview "previews/optima.png")
     ))
 )
 
@@ -242,8 +242,8 @@
      (eric-gill-opinion good)
  =>
      (assert (recommendation
-         (font-name "Joanna")
-         (preview-path "previews/joanna.png")
+         (name "Joanna")
+         (preview "previews/joanna.png")
      ))
  )
 
@@ -257,8 +257,8 @@
     (humanistic-forms-pleasing no)
 =>
     (assert (recommendation
-        (font-name "Baskerville")
-        (preview-path "previews/baskerville.png")
+        (name "Baskerville")
+        (preview "previews/baskerville.png")
     ))
 )
 
@@ -273,8 +273,8 @@
     (cheese-preference gouda)
 =>
     (assert (recommendation
-        (font-name "FF Scala")
-        (preview-path "previews/ff_scala.png")
+        (name "FF Scala")
+        (preview "previews/ff_scala.png")
     ))
 )
 
@@ -289,8 +289,8 @@
     (cheese-preference emmental)
 =>
     (assert (recommendation
-        (font-name "FF Syntax")
-        (preview-path "previews/syntax.png")
+        (name "FF Syntax")
+        (preview "previews/syntax.png")
     ))
 )
 
