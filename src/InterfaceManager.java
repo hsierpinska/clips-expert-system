@@ -25,22 +25,27 @@ public class InterfaceManager {
         List<CLIPSHandler.Question> questions = handler.fetchQuestions();
         System.out.println(questions);
 
-        CLIPSHandler.Question question = questions.get(0);
-
+        CLIPSHandler.Question question = questions.getFirst();
         displayQuestion(question);
-
     }
+
+
     public static String formatString(String input) {
         String[] parts = input.replaceAll("[()]", "").split(",");
         String result = parts[0].trim().toLowerCase();
         return result.substring(0, 1).toUpperCase() + result.substring(1);
     }
+
+    public static String formatLabel(String input) {
+        return "<html>" + input.replace("\\n", "<br>") + "</html>";
+
+    }
     public void displayQuestion(CLIPSHandler.Question question) {
         frame.getContentPane().removeAll();
-
-        JLabel label = new JLabel(question.text);
+        String labelText = formatLabel(question.text);
+        JLabel label = new JLabel(labelText);
         label.setFont(new Font("Calibri", Font.BOLD, 20));
-        label.setBounds(10, 10, 200, 50);
+        label.setBounds(10, 10, 350, 100);
         frame.add(label);
 
         ButtonGroup radioGroup = new ButtonGroup();
@@ -98,8 +103,15 @@ public class InterfaceManager {
                 } else {
                     question.answer(indexes);
                 }
-
-
+                List<CLIPSHandler.Question> questions = handler.fetchQuestions();
+                if (!questions.isEmpty()) {
+                    CLIPSHandler.Question question = questions.getFirst();
+                    displayQuestion(question);
+                } else {
+                    JOptionPane.showMessageDialog(frame, "The end");
+                    System.exit(0);
+//                    todo: rekomendacje albo kolejne pytania jeśli nie znajdzie dopasowania
+                }
             }
         });
 
