@@ -117,17 +117,6 @@
     ))
 )
 
-(defrule logo-recommend-fedra
-    (project logo)
-    (typeface-preference serif)
-    (understands-semi-sans-semi-serif yes)
-=>
-    (assert (recommendation
-        (name "Fedra")
-        (preview "previews/fedra.png")
-    ))
-)
-
 (defrule logo-recommend-bodoni
     (project logo)
     (typeface-preference serif)
