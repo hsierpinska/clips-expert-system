@@ -42,6 +42,30 @@ public class InterfaceManager {
         return "<html>" + input.replace("\\n", "<br>") + "</html>";
 
     }
+
+    public void displayRecommendation(CLIPSHandler.Recommendation recommendation) {
+        frame.getContentPane().removeAll();
+        String fontName = recommendation.fontName;
+        JLabel label = new JLabel("Your recommendation is " + fontName);
+        label.setFont(new Font("Calibri", Font.BOLD, 20));
+        label.setBounds(50, 60, 350, 100);
+        frame.add(label);
+        // image
+        String previewPath = recommendation.previewPath;
+        ImageIcon imageIcon = new ImageIcon(previewPath);
+        JLabel image = new JLabel(imageIcon);
+        int height = imageIcon.getIconHeight();
+        int width = imageIcon.getIconWidth();
+        System.out.print(recommendation);
+        frame.add(image, BorderLayout.CENTER);
+        image.setBounds(120, 150, width, height);
+
+
+
+        frame.revalidate();
+        frame.repaint();
+
+    }
     public void displayQuestion(CLIPSHandler.Question question) {
         frame.getContentPane().removeAll();
         String labelText = formatLabel(question.text);
@@ -105,13 +129,23 @@ public class InterfaceManager {
                 } else {
                     question.answer(indexes);
                 }
+
+
+                List<CLIPSHandler.Recommendation> recommendations;
+                recommendations = handler.fetchRecommendations();
+                if (!recommendations.isEmpty()) {
+                    CLIPSHandler.Recommendation recommendation = recommendations.get(0);
+                    displayRecommendation(recommendation);
+                    return;
+                }
                 List<CLIPSHandler.Question> questions = handler.fetchQuestions();
                 if (!questions.isEmpty()) {
                     CLIPSHandler.Question question = questions.get(0);
                     displayQuestion(question);
                 } else {
-                    JOptionPane.showMessageDialog(frame, "The end");
-                    System.exit(0);
+//                    JOptionPane.showMessageDialog(frame, "The end");
+                   ;
+//                    System.exit(0);
 //                    todo: rekomendacje albo kolejne pytania jeśli nie znajdzie dopasowania
                 }
             }

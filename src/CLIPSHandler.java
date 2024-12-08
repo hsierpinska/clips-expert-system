@@ -61,6 +61,27 @@ public class CLIPSHandler {
         }
     }
 
+    public class Recommendation {
+        String fontName;
+        String previewPath;
+
+        public Recommendation(String fontName, String previewPath) {
+            this.fontName = fontName;
+            this.previewPath = previewPath;
+        }
+        @Override
+        public String toString() {
+            return "Recommendation: " +
+                    "fontName='" + fontName + '\'' +
+                    ", previewPath='" + previewPath + '\'';
+
+        }
+    }
+
+
+
+
+
     public CLIPSHandler() {
         try {
             // Initialize the CLIPS environment
@@ -86,7 +107,27 @@ public class CLIPSHandler {
             e.printStackTrace();
         }
     }
+    public List<Recommendation> fetchRecommendations() {
+        List<Recommendation> recommendations = new ArrayList<>();
+        try {
+            String query = "(find-all-facts ((?f recommendation)) TRUE)";
+            PrimitiveValue result = clips.eval(query);
+            if (result instanceof MultifieldValue facts) {
+                for (int i=0; i < facts.size(); i++) {
 
+                    FactAddressValue fact = (FactAddressValue) facts.get(i);
+                    String fontName = fact.getSlotValue("font-name").getValue().toString();
+                    String previewPath = fact.getSlotValue("preview-path").getValue().toString();
+                    recommendations.add(new Recommendation(fontName, previewPath));
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return recommendations;
+
+    }
     public List<Question> fetchQuestions() {
         List<Question> questions = new ArrayList<>();
 
@@ -135,6 +176,7 @@ public class CLIPSHandler {
                 }
 
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
