@@ -5,6 +5,11 @@
     (slot multiple (type INTEGER))
 )
 
+(deftemplate recommendation
+    (slot font-name (type STRING))
+    (slot preview-path (type STRING))
+)
+
 ; (program-info (title "Typeface Chooser"))
 
 (deffacts initial-question
