@@ -5,7 +5,7 @@
     (assert (question
         (text "Which one do you prefer the most?")
         (choices
-            "TEXT-FACE" "COMBINATION" "DISPLAY"
+            "TEXT FACE" "COMBINATION" "DISPLAY"
         )
         (facts
             "(form text-face)" "(form combination)" "(form display)"
@@ -50,12 +50,12 @@
     ))
 )
 
-(defrule newspaper-ask-award
+(defrule newspaper-ask-award-thoughts
     (project newspaper)
     (form text-face)
     (boring no)
     (heavily-used no)
-    (not (award ?))
+    (not (award-thoughts ?))
 
 =>
     (assert (question
@@ -64,16 +64,16 @@
             "GOOD" "BAD"
         )
         (facts
-            "(award good)" "(award bad)"
+            "(award-thoughts good)" "(award-thoughts bad)"
         )
         (multiple 0)
     ))
 )
 
-(defrule newspaper-ask-spiekermann
+(defrule newspaper-ask-spiekermann-thoughts
     (project newspaper)
     (form combination)
-    (not (spiekermann ?))
+    (not (spiekermann-thoughts ?))
 
 =>
     (assert (question
@@ -82,7 +82,7 @@
             "YES" "NO"
         )
         (facts
-            "(spiekermann right)" "(spiekermann wrong)"
+            "(spiekermann-thoughts right)" "(spiekermann-thoughts wrong)"
         )
         (multiple 0)
     ))
@@ -91,7 +91,7 @@
 (defrule newspaper-ask-netherlands
     (project newspaper)
     (form combination)
-    (spiekermann wrong)
+    (spiekermann-thoughts wrong)
     (not (netherlands ?))
 
 =>
@@ -110,7 +110,7 @@
 (defrule newspaper-ask-spiky-serifs
     (project newspaper)
     (form combination)
-    (spiekermann wrong)
+    (spiekermann-thoughts wrong)
     (netherlands nice)
     (not (spiky-serifs ?))
 
@@ -205,12 +205,12 @@
     ))
 )
 
-(defrule newspaper-ask-nineties
+(defrule newspaper-ask-not-afraid-of-nineties
     (project newspaper)
     (form display)
     (traditional no)
     (modern no)
-    (not (nineties ?))
+    (not (not-afraid-of-nineties ?))
 
 =>
     (assert (question
@@ -219,7 +219,7 @@
             "YES" "NO"
         )
         (facts
-            "(nineties yes)" "(nineties no)"
+            "(not-afraid-of-nineties yes)" "(not-afraid-of-nineties no)"
         )
         (multiple 0)
     ))
