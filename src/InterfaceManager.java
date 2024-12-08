@@ -25,8 +25,10 @@ public class InterfaceManager {
         List<CLIPSHandler.Question> questions = handler.fetchQuestions();
         System.out.println(questions);
 
-        CLIPSHandler.Question question = questions.getFirst();
-        displayQuestion(question);
+        if (!questions.isEmpty()) {
+            CLIPSHandler.Question question = questions.get(0);
+            displayQuestion(question);
+        }
     }
 
 
@@ -105,7 +107,7 @@ public class InterfaceManager {
                 }
                 List<CLIPSHandler.Question> questions = handler.fetchQuestions();
                 if (!questions.isEmpty()) {
-                    CLIPSHandler.Question question = questions.getFirst();
+                    CLIPSHandler.Question question = questions.get(0);
                     displayQuestion(question);
                 } else {
                     JOptionPane.showMessageDialog(frame, "The end");
