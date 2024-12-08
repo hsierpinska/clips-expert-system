@@ -26,7 +26,7 @@
     (form text-face)
     (boring no)
     (heavily-used no)
-    (award good)
+    (award-thoughts good)
 =>
     (assert (recommendation
         (name "Proforma")
@@ -39,7 +39,7 @@
     (form text-face)
     (boring no)
     (heavily-used no)
-    (award bad)
+    (award-thoughts bad)
 =>
     (assert (recommendation
         (name "Arnhem")
@@ -50,7 +50,7 @@
 (defrule newspaper-recommend-to-get-out
     (project newspaper)
     (form combination)
-    (spiekermann wrong)
+    (spiekermann-thoughts wrong)
     (netherlands bad)
 =>
     (assert (recommendation
@@ -62,7 +62,7 @@
 (defrule newspaper-recommend-swift
     (project newspaper)
     (form combination)
-    (spiekermann wrong)
+    (spiekermann-thoughts wrong)
     (netherlands nice)
     (spiky-serifs ok)
 =>
@@ -75,7 +75,7 @@
 (defrule newspaper-recommend-arnhem2
     (project newspaper)
     (form combination)
-    (spiekermann right)
+    (spiekermann-thoughts right)
 =>
     (assert (recommendation
         (name "Arnhem")
@@ -88,7 +88,7 @@
     (form display)
     (traditional no)
     (modern no)
-    (nineties no)
+    (not-afraid-of-nineties no)
 =>
     (assert (recommendation
         (name "FF Meta")
@@ -101,7 +101,7 @@
     (form display)
     (traditional no)
     (modern no)
-    (nineties yes)
+    (not-afraid-of-nineties yes)
 =>
     (assert (recommendation
         (name "Helvetica")
