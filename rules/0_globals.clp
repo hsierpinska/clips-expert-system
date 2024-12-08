@@ -12,11 +12,17 @@
     (slot preview (type STRING))
 )
 
-; (program-info (title "Typeface Chooser"))
+(deftemplate program-info
+    (slot name (type STRING))
+)
 
-(deffacts initial-question
+; Initial facts
+(deffacts program-setup
+    (program-info
+        (name "SO YOU NEED A TYPEFACE")
+    )
     (question
-        (text "SO YOU NEED A TYPEFACE\\nWhat kind of project you'll need it for?")
+        (text "What kind of project will you need it for?")
         (choices
             "BOOK" "INFOGRAPHIC" "NEWSPAPER" "INVITATION" "LOGO"
         )

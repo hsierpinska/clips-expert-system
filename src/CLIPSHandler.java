@@ -9,6 +9,7 @@ public class CLIPSHandler {
 
     private Environment clips;
     private String rulesPath;
+    private ProgramInfo programInfo;
 
     public class QuestionChoice {
         public String text;
@@ -81,9 +82,21 @@ public class CLIPSHandler {
         }
     }
 
+    public class ProgramInfo {
+        public String name;
 
+        public ProgramInfo(String name) {
+            this.name = name;
+        }
+    }
 
-
+    public String getProgramName() {
+        if (programInfo != null) {
+            return programInfo.name;
+        } else {
+            return "";
+        }
+    }
 
     public CLIPSHandler() {
         try {
@@ -91,7 +104,7 @@ public class CLIPSHandler {
             clips = new Environment();
             System.out.println("CLIPS Environment initialized.");
 
-            // Load the CLIPS file
+            // Load rule and fact files
             rulesPath = "rules/";
             File rulesFolder = new File(rulesPath);
 
@@ -106,40 +119,67 @@ public class CLIPSHandler {
 
             // Initialize facts and rules by resetting
             clips.eval("(reset)");
-            System.out.println("CLIPS Environment ready!");
+            System.out.println("CLIPS environment ready!");
 
-            // Activate tracing to debug
+            // Extra debug information
             clips.eval("(watch rules)");
             clips.eval("(watch facts)");
 
-        } catch (UnsatisfiedLinkError ule) {
-            System.err.println("Failed to load the CLIPSJNI library: " + ule.getMessage());
+            // Load program info
+            programInfo = fetchProgramInfo();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public List<Recommendation> fetchRecommendations() {
-        List<Recommendation> recommendations = new ArrayList<>();
+
+    public ProgramInfo fetchProgramInfo() {
+
         try {
+
+            String query = "(find-all-facts ((?f program-info)) TRUE)";
+            PrimitiveValue result = clips.eval(query);
+            FactAddressValue fact = (FactAddressValue) ((MultifieldValue) result).get(0);
+
+            String name = fact.getSlotValue("name").getValue().toString();
+
+            return new ProgramInfo(name);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Recommendation> fetchRecommendations() {
+
+        List<Recommendation> recommendations = new ArrayList<>();
+
+        try {
+
             String query = "(find-all-facts ((?f recommendation)) TRUE)";
             PrimitiveValue result = clips.eval(query);
+
             if (result instanceof MultifieldValue facts) {
-                for (int i=0; i < facts.size(); i++) {
+                for (int i = 0; i < facts.size(); i++) {
 
                     FactAddressValue fact = (FactAddressValue) facts.get(i);
-                    String fontName = fact.getSlotValue("name").getValue().toString();
-                    String previewPath = fact.getSlotValue("preview").getValue().toString();
-                    recommendations.add(new Recommendation(fontName, previewPath));
+                    String name = fact.getSlotValue("name").getValue().toString();
+                    String preview = fact.getSlotValue("preview").getValue().toString();
+                    recommendations.add(new Recommendation(name, preview));
 
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return recommendations;
 
+        return recommendations;
     }
+
     public List<Question> fetchQuestions() {
+
         List<Question> questions = new ArrayList<>();
 
         try {
@@ -155,7 +195,6 @@ public class CLIPSHandler {
                     long factId = fact.getFactIndex();
 
                     String questionText = fact.getSlotValue("text").getValue().toString();
-
 
                     // Get choices --------------
 
@@ -196,7 +235,6 @@ public class CLIPSHandler {
     }
 
     public void assertFact(String fact, boolean run) {
-        List<Question> questions = new ArrayList<>();
 
         try {
 
@@ -215,7 +253,6 @@ public class CLIPSHandler {
     }
 
     public void retractFact(long factId, boolean run) {
-        List<Question> questions = new ArrayList<>();
 
         try {
 
@@ -231,20 +268,5 @@ public class CLIPSHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // TODO: doesn't work
-    public int countFacts() {
-        try {
-            PrimitiveValue result = clips.eval("(facts)");
-            if (result instanceof MultifieldValue facts) {
-                return facts.size();
-            } else if (result instanceof VoidValue) {
-                return 0;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
     }
 }
