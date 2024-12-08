@@ -1,9 +1,24 @@
 
 
 ; Project: Book
+(defrule ask-doubtful
+    (project book)
+    (not (doubtful ?))
+=>
+    (assert (question
+        (text "Are you completely in doubt?")
+        (choices
+            "YES" "NO"
+        )
+        (facts
+            "(doubtful yes)" "(doubtful no)"
+        )
+        (multiple 0)
+    ))
+)
 
 (defrule recommend-baskerville
-    (dislikes humanistic)
+    (humanistic dislikes)
     (dislikes eric-gill)
     (dislikes sans-serif)
     (dislikes garamond)

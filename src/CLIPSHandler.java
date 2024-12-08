@@ -30,11 +30,13 @@ public class CLIPSHandler {
     }
 
     public class Question {
+        public long factId;
         public String text;
         public List<QuestionChoice> choices;
         public boolean multiple;
 
-        public Question(String text, List<QuestionChoice> choices, boolean multiple) {
+        public Question(long factId, String text, List<QuestionChoice> choices, boolean multiple) {
+            this.factId = factId;
             this.text = text;
             this.choices = choices;
             this.multiple = multiple;
@@ -43,10 +45,9 @@ public class CLIPSHandler {
         // List of choice indexes
         public void answer(List<Integer> choiceIndexes) {
             for (int index: choiceIndexes) {
-                assertFact(this.choices.get(index).fact);
+                assertFact(this.choices.get(index).fact, true);
             }
-            System.out.println(countFacts()); // Moved
-
+            retractFact(factId, true);
         }
 
         @Override
@@ -56,7 +57,7 @@ public class CLIPSHandler {
                 choicesString += choice.text + ", ";
             }
 
-            return "<Question: \"" + text + "\" - " + choicesString + " (multiple: " + multiple + ")>";
+            return "<(" + factId + ") Question: \"" + text + "\" - " + choicesString + " (multiple: " + multiple + ")>";
         }
     }
 
@@ -76,8 +77,8 @@ public class CLIPSHandler {
             clips.eval("(watch facts)");
 
             // Run the CLIPS engine
-            clips.run();
-            System.out.println("CLIPS rules executed.");
+            //clips.run();
+            //System.out.println("CLIPS rules executed.");
 
         } catch (UnsatisfiedLinkError ule) {
             System.err.println("Failed to load the CLIPSJNI library: " + ule.getMessage());
@@ -99,6 +100,7 @@ public class CLIPSHandler {
 
                 for (int i = 0; i < facts.size(); i++) {
                     FactAddressValue fact = (FactAddressValue) facts.get(i);
+                    long factId = fact.getFactIndex();
 
                     String questionText = fact.getSlotValue("text").getValue().toString();
 
@@ -128,7 +130,7 @@ public class CLIPSHandler {
 
                     boolean multiple = Integer.parseInt(fact.getSlotValue("multiple").getValue().toString()) == 1;
 
-                    Question question = new Question(questionText, choices, multiple);
+                    Question question = new Question(factId, questionText, choices, multiple);
                     questions.add(question);
                 }
 
@@ -140,7 +142,7 @@ public class CLIPSHandler {
         return questions;
     }
 
-    public void assertFact(String fact) {
+    public void assertFact(String fact, boolean run) {
         List<Question> questions = new ArrayList<>();
 
         try {
@@ -148,13 +150,37 @@ public class CLIPSHandler {
             String query = "(assert " + fact + ")";
             PrimitiveValue result = clips.eval(query);
 
-            System.out.println("Asserted!");
+            System.out.println("Asserted! - " + result.toString());
+
+            if (run) {
+                clips.run();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void retractFact(long factId, boolean run) {
+        List<Question> questions = new ArrayList<>();
+
+        try {
+
+            String query = "(retract " + factId + ")";
+            PrimitiveValue result = clips.eval(query);
+
+            System.out.println("Retracted! - " + result.toString());
+
+            if (run) {
+                clips.run();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO: doesn't work
     public int countFacts() {
         try {
             PrimitiveValue result = clips.eval("(facts)");

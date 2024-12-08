@@ -16,7 +16,7 @@
         (facts
             "(project book)" "(project infographic)" "(project newspaper)" "(project invitation)" "(project logo)"
         )
-        (multiple 1)
+        (multiple 0)
     )
 )
 
