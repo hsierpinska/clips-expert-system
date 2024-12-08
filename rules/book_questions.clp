@@ -108,14 +108,14 @@
     ))
 )
 
-(defrule book-ask-humanistic
+(defrule book-ask-humanistic-opinion
     (project book)
     (is-doubtful no)
     (usability-champion no)
     (garamond not-loves)
     (typeface-preference serif)
     (eric-gill-opinion bad)
-    (not (humanistic-forms-pleasing ?))
+    (not (humanistic-opinion ?))
 =>
     (assert (question
         (text "Humanistic forms please your eye?")
@@ -123,7 +123,7 @@
             "YES" "NO"
         )
         (facts
-            "(humanistic-forms-pleasing yes)" "(humanistic-forms-pleasing no)"
+            "(humanistic-opinion like)" "(humanistic-opinion dislike)"
         )
         (multiple 0)
     ))
@@ -136,7 +136,7 @@
     (garamond not-loves)
     (typeface-preference serif)
     (eric-gill-opinion bad)
-    (humanistic-forms-pleasing yes)
+    (humanistic-opinion like)
     (not (cheese-preference ?))
 =>
     (assert (question
@@ -146,24 +146,6 @@
         )
         (facts
             "(cheese-preference gouda)" "(cheese-preference emmental)"
-        )
-        (multiple 0)
-    ))
-)
-
-; Logo questions
-
-(defrule ask-sans-serif-logo
-    (project logo)
-    (not (typeface-preference ?))
-=>
-    (assert (question
-        (text "A sans serif, maybe? Or perhaps a serif?")
-        (choices
-            "YES" "NO"
-        )
-        (facts
-            "(typeface-preference sans-serif)" "(typeface-preference serif)"
         )
         (multiple 0)
     ))

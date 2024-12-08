@@ -79,7 +79,7 @@
     (garamond not-loves)
     (typeface-preference serif)
     (eric-gill-opinion bad)
-    (humanistic-forms-pleasing no)
+    (humanistic-opinion dislike)
 =>
     (assert (recommendation
         (name "Baskerville")
@@ -94,7 +94,7 @@
     (garamond not-loves)
     (typeface-preference serif)
     (eric-gill-opinion bad)
-    (humanistic-forms-pleasing yes)
+    (humanistic-opinion like)
     (cheese-preference gouda)
 =>
     (assert (recommendation
@@ -110,7 +110,7 @@
     (garamond not-loves)
     (typeface-preference serif)
     (eric-gill-opinion bad)
-    (humanistic-forms-pleasing yes)
+    (humanistic-opinion like)
     (cheese-preference emmental)
 =>
     (assert (recommendation

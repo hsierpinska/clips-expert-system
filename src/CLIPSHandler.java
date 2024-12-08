@@ -109,8 +109,8 @@ public class CLIPSHandler {
             System.out.println("CLIPS Environment ready!");
 
             // Activate tracing to debug
-            //clips.eval("(watch rules)");
-            //clips.eval("(watch facts)");
+            clips.eval("(watch rules)");
+            clips.eval("(watch facts)");
 
         } catch (UnsatisfiedLinkError ule) {
             System.err.println("Failed to load the CLIPSJNI library: " + ule.getMessage());
