@@ -33,22 +33,25 @@ public class InterfaceManager {
         return "<html>" + input.replace("\\n", "<br>") + "</html>";
     }
 
-    public void displayRecommendation(CLIPSHandler.Recommendation recommendation) {
+    public void displayRecommendation(List<CLIPSHandler.Recommendation> recommendations, int index) {
+        if (index >= recommendations.size()) return; // Invalid index protection
+
         frame.getContentPane().removeAll();
 
-        String fontName = recommendation.name;
-        JLabel label = new JLabel("Your recommendation is " + fontName);
+        System.out.print(recommendations.get(index));
+
+        String fontName = recommendations.get(index).name;
+        JLabel label = new JLabel("<html>Your recommendation is:<br>" + fontName + "</html>");
         label.setFont(new Font("Calibri", Font.BOLD, 20));
-        label.setBounds(50, 60, 350, 100);
+        label.setBounds(50, 40, 350, 100);
         frame.add(label);
 
         // Image
-        String previewPath = recommendation.preview;
+        String previewPath = recommendations.get(index).preview;
         ImageIcon imageIcon = new ImageIcon(previewPath);
         JLabel image = new JLabel(imageIcon);
         int height = imageIcon.getIconHeight();
         int width = imageIcon.getIconWidth();
-        System.out.print(recommendation);
         frame.add(image, BorderLayout.CENTER);
         image.setBounds(120, 150, width, height);
 
@@ -62,6 +65,19 @@ public class InterfaceManager {
             }
         });
         frame.add(exitButton);
+
+        // Next recommendation button
+        if (index < recommendations.size() - 1) {
+            JButton nextButton = new JButton("Next recommendation >");
+            nextButton.setBounds(40, 300, 175, 20);
+            nextButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    displayRecommendation(recommendations, index + 1);
+                }
+            });
+            frame.add(nextButton);
+        }
 
         frame.revalidate();
         frame.repaint();
@@ -169,8 +185,7 @@ public class InterfaceManager {
                 // Show recommendation if available
                 List<CLIPSHandler.Recommendation> recommendations = handler.fetchRecommendations();
                 if (!recommendations.isEmpty()) {
-                    CLIPSHandler.Recommendation recommendation = recommendations.get(0);
-                    displayRecommendation(recommendation);
+                    displayRecommendation(recommendations, 0);
                     return;
                 }
 
