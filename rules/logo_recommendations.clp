@@ -86,7 +86,7 @@
 =>
     (assert (recommendation
         (name "Akzidenz Grotesk")
-        (preview "previews/akzidenz-grotesk.png")
+        (preview "previews/akzidenz_grotesk.png")
     ))
 )
 
@@ -102,6 +102,18 @@
     (assert (recommendation
         (name "Peignot")
         (preview "previews/peignot.png")
+    ))
+)
+
+(defrule logo-recommend-fedra
+    (project logo)
+    (typeface-preference serif)
+    (understands-semi-sans-semi-serif no)
+    (semi-sans-semi-serif-opinion like)
+=>
+    (assert (recommendation
+        (name "Fedra")
+        (preview "previews/fedra.png")
     ))
 )
 
