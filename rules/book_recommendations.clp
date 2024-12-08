@@ -114,7 +114,7 @@
     (cheese-preference emmental)
 =>
     (assert (recommendation
-        (name "FF Syntax")
+        (name "Syntax")
         (preview "previews/syntax.png")
     ))
 )
