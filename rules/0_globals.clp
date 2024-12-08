@@ -1,3 +1,5 @@
+; Templates
+
 (deftemplate question
     (slot text (type STRING))
     (multislot choices (type STRING))
