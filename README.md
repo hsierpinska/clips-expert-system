@@ -2,7 +2,7 @@
 
 An expert system project by 156080 and 155805.
 
-![flowchart](./readme/flowchart.jpg)
+![flowchart](README/flowchart.jpg)
 
 # About
 - This program uses the CLIPS language to help you choose a typeface to use for a project.
@@ -54,9 +54,9 @@ An expert system project by 156080 and 155805.
 - Run the project - you should see a Swing window pop up.
 
 # Screenshots
-![preview1](./readme/preview1.png)
-![preview2](./readme/preview2.png)
-![preview3](./readme/preview3.png)
+![preview1](README/preview1.png)
+![preview2](README/preview2.png)
+![preview3](README/preview3.png)
 
 # Credits:
 - Project: 156080 and 155805
