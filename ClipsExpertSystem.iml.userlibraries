@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="CLIPSJNI">
+    <archive path="C:/Users/jakub/Documents/Code Projects/clips-expert-system/CLIPSJNI/AutoDemo.jar" />
+    <archive path="C:/Users/jakub/Documents/Code Projects/clips-expert-system/CLIPSJNI/CLIPSIDE.jar" />
+    <archive path="C:/Users/jakub/Documents/Code Projects/clips-expert-system/CLIPSJNI/CLIPSJNI.jar" />
+    <archive path="C:/Users/jakub/Documents/Code Projects/clips-expert-system/CLIPSJNI/WineDemo.jar" />
+    <archive path="C:/Users/jakub/Documents/Code Projects/clips-expert-system/CLIPSJNI/AnimalDemo.jar" />
+    <archive path="C:/Users/jakub/Documents/Code Projects/clips-expert-system/CLIPSJNI/RouterDemo.jar" />
+    <archive path="C:/Users/jakub/Documents/Code Projects/clips-expert-system/CLIPSJNI/SudokuDemo.jar" />
+  </library>
+</eclipse-userlibraries>
+
